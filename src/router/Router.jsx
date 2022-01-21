@@ -5,7 +5,9 @@ import { Page1 } from "../Page1";
 import { Page1DetailA } from "../Page1DetailA";
 import { Page1DetailB } from "../Page1DetailB";
 import { Page2 } from "../Page2";
+import { Page404 } from "../Page404";
 import { Page1Routes } from "./Page1Routes";
+import { Page2Routes } from "./Page2Routes";
 
 export const Router = () => {
   return (
@@ -29,8 +31,24 @@ export const Router = () => {
           </Switch>
         )}
       />
-      <Route path="/Page2">
-        <Page2 />
+      <Route
+        path="/Page2"
+        render={({ match: { url } }) => (
+          <Switch>
+            {Page2Routes.map((route) => (
+              <Route
+                key={route.path}
+                exact={route.exact}
+                path={`${url}${route.path}`}
+              >
+                {route.children}
+              </Route>
+            ))}
+          </Switch>
+        )}
+      />
+      <Route path="*">
+        <Page404 />
       </Route>
     </Switch>
   );
